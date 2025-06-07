@@ -1,0 +1,43 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# React 开发规则
+
+## 组件开发约定
+
+### 组件结构
+- 所有 React 组件放置在 `src/components/` 目录下
+- 使用函数式组件和 React Hooks
+- 组件文件以 `.js` 扩展名结尾
+- 组件名使用 PascalCase 命名
+
+### 示例组件
+参考现有组件 [DataStorageDemo.js](mdc:src/components/DataStorageDemo.js) 的结构和实现方式。
+
+### 样式约定
+- 主要样式文件: [App.css](mdc:src/App.css)
+- 全局样式: [index.css](mdc:src/index.css)
+- 使用 CSS 类名进行样式管理
+
+## 状态管理
+- 优先使用 React Hooks (useState, useEffect, useContext)
+- 对于复杂状态，考虑使用 useReducer
+- 避免过度嵌套的状态结构
+
+## 工具函数
+- 将可复用的工具函数放在 `src/utils/` 目录
+- 环境相关配置参考 [environment.js](mdc:src/utils/environment.js)
+
+## 测试
+- 测试文件以 `.test.js` 结尾
+- 使用 React Testing Library 进行组件测试
+- 参考 [App.test.js](mdc:src/App.test.js) 的测试结构
+
+## 开发最佳实践
+1. 保持组件的单一职责原则
+2. 使用 PropTypes 或 TypeScript 进行类型检查
+3. 避免在渲染函数中定义内联函数
+4. 合理使用 useMemo 和 useCallback 优化性能
+5. 保持组件的可测试性

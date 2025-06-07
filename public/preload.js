@@ -336,15 +336,15 @@ const { ipcRenderer } = require('electron');
 const defaultConfig = {
     server: {
         host: "8.134.57.51",
-        port: 3303
+        port: 3333
     },
     client: {
-        defaultServerUrl: "http://8.134.57.51:3303",
+        defaultServerUrl: "http://8.134.57.51:3333",
         timeout: 30000,
         retryAttempts: 3
     },
     websocket: {
-        url: "ws://8.134.57.51:3303/ws",
+        url: "ws://8.134.57.51:3333/ws",
         reconnectInterval: 5000,
         maxReconnectAttempts: 10
     }

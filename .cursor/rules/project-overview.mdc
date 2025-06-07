@@ -1,0 +1,40 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# YatPotato 项目概览
+
+这是一个使用 React 和 Electron 构建的桌面应用程序项目。
+
+## 项目架构
+
+- **前端框架**: React 19.1.0
+- **桌面应用框架**: Electron 36.3.2
+- **构建工具**: React Scripts 5.0.1
+- **开发环境**: Node.js + npm
+
+## 核心目录结构
+
+- `src/` - React 应用源代码
+  - [App.js](mdc:src/App.js) - 主应用组件
+  - `components/` - React 组件
+  - `utils/` - 工具函数
+- `public/` - 静态资源和 Electron 配置
+  - [electron.js](mdc:public/electron.js) - Electron 主进程
+  - [preload.js](mdc:public/preload.js) - 预加载脚本
+- `build/` - 构建输出目录
+- `data/` - 数据存储目录
+
+## 主要入口点
+
+- React 应用入口: [src/index.js](mdc:src/index.js)
+- Electron 主进程: [public/electron.js](mdc:public/electron.js)
+- 包配置: [package.json](mdc:package.json)
+
+## 开发命令
+
+- `npm start` - 启动 React 开发服务器
+- `npm run electron-dev` - 并发启动 React 和 Electron
+- `npm run build` - 构建 React 应用
+- `npm run dist` - 构建并打包 Electron 应用

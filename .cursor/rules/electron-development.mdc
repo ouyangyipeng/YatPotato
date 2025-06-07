@@ -1,0 +1,67 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Electron 开发规则
+
+## Electron 架构概述
+
+### 主进程文件
+- [electron.js](mdc:public/electron.js) - 主进程入口文件
+- 负责创建和管理应用窗口
+- 处理系统级事件和生命周期
+
+### 预加载脚本
+- [preload.js](mdc:public/preload.js) - 预加载脚本
+- 在渲染进程中安全地暴露 Node.js API
+- 提供主进程和渲染进程之间的通信桥梁
+
+## 进程间通信 (IPC)
+
+### 主进程到渲染进程
+- 使用 `webContents.send()` 发送消息
+- 在渲染进程中通过 `window.electronAPI` 接收
+
+### 渲染进程到主进程
+- 使用 `ipcRenderer.invoke()` 进行异步调用
+- 使用 `ipcRenderer.send()` 发送单向消息
+
+## 安全最佳实践
+
+1. **启用上下文隔离**
+   - 在 BrowserWindow 中设置 `contextIsolation: true`
+   
+2. **禁用节点集成**
+   - 设置 `nodeIntegration: false`
+   
+3. **使用预加载脚本**
+   - 通过预加载脚本安全地暴露 API
+   - 避免直接在渲染进程中使用 Node.js
+
+## 打包和分发
+
+### 构建配置
+- 打包配置在 [package.json](mdc:package.json) 的 `build` 字段中
+- 支持 Windows (NSIS)、macOS (DMG)、Linux (AppImage)
+
+### 构建命令
+- `npm run dist` - 构建并打包应用
+- `npm run electron-pack` - 使用 electron-builder 打包
+
+## 开发调试
+
+### 开发环境
+- 使用 `npm run electron-dev` 启动开发环境
+- 自动重载和热更新支持
+
+### 调试工具
+- 在开发环境中启用 Chrome DevTools
+- 使用 `electron-is-dev` 检测开发环境
+
+## 文件结构约定
+
+- 静态资源放在 `public/` 目录
+- Electron 相关文件放在 `public/` 目录
+- 构建输出到 `build/` 目录
+- 最终打包输出到 `dist/` 目录
