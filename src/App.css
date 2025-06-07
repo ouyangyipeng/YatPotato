@@ -1,0 +1,1333 @@
+/* 基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* 底部导航栏样式 */
+.bottom-navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0;
+  background-color: #ffffff;
+  border-top: 1px solid #eaeaea;
+}
+
+.bottom-navigation button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 8px 0;
+  width: 20%;
+}
+
+.bottom-navigation button span {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.bottom-navigation button.active {
+  color: #FF6B6B;
+}
+
+.bottom-navigation button:hover {
+  color: #FF6B6B;
+}
+
+/* 计时器屏幕样式 */
+.timer-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  height: 100%;
+}
+
+.timer-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.timer-display {
+  font-size: 72px;
+  font-weight: 300;
+  color: #212529;
+  margin-bottom: 20px;
+}
+
+.motivational-quote {
+  font-size: 16px;
+  color: #6c757d;
+  margin-bottom: 40px;
+  font-style: italic;
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.control-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.control-btn.start {
+  background-color: #FF6B6B;
+  color: white;
+}
+
+.control-btn.pause {
+  background-color: #FFD166;
+  color: #212529;
+}
+
+.control-btn.reset {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+.control-btn.settings {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+/* 设置面板样式 */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.settings-panel {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 300px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.settings-panel h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #212529;
+  text-align: center;
+}
+
+.settings-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.settings-control input {
+  width: 70px;
+  height: 40px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 16px;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.settings-control span {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.settings-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.settings-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.settings-buttons button:first-child {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+.settings-buttons button:last-child {
+  background-color: #FF6B6B;
+  color: white;
+}
+
+/* 任务列表屏幕样式 */
+.tasks-screen {
+  padding: 20px;
+}
+
+.tasks-screen h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #212529;
+}
+
+.task-input-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.task-input-container input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
+}
+
+.task-input-container button {
+  padding: 12px 20px;
+  background-color: #FF6B6B;
+  color: white;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.task-list {
+  list-style-type: none;
+}
+
+.task-list li {
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.task-list li:last-child {
+  border-bottom: none;
+}
+
+.task-list li span {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.task-list li.completed span {
+  color: #6c757d;
+  text-decoration: line-through;
+}
+
+.task-edit-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.task-edit-btn.save {
+  background-color: #FF6B6B;
+  color: white;
+}
+.task-edit-btn.cancel {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+.task-edit-btn.save:hover {
+  background-color: #ff4c4c;
+}
+.task-edit-btn.cancel:hover {
+  background-color: #e2e6ea;
+}
+
+.task-edit-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-right: 8px;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+.task-edit-input:focus {
+  border-color: #FF6B6B;
+  outline: none;
+}
+
+/* 三点菜单按钮 */
+.task-menu-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* 下拉菜单 */
+.task-menu-dropdown {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 10;
+  min-width: 70px;
+}
+.task-menu-dropdown div {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.task-menu-dropdown div:hover {
+  background: #f5f5f5;
+}
+
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.modal-dialog {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 32px 28px 24px 28px;
+  min-width: 260px;
+  text-align: center;
+}
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ff6b35;
+  margin-bottom: 16px;
+}
+.modal-content {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 24px;
+}
+.modal-btn {
+  padding: 8px 32px;
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal-btn:hover {
+  background: #ff4c1e;
+}
+
+/* 报告屏幕样式 */
+.reports-screen {
+  padding: 20px;
+}
+
+.reports-screen h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #212529;
+}
+
+.report-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.report-tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #6c757d;
+  cursor: pointer;
+  position: relative;
+}
+
+.report-tab.active {
+  color: #FF6B6B;
+}
+
+.report-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #FF6B6B;
+}
+
+.report-content {
+  padding: 20px 0;
+}
+
+.report-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.report-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #FF6B6B;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.report-chart {
+  height: 200px;
+  margin-top: 30px;
+}
+
+.chart-placeholder {
+  display: flex;
+  height: 160px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.chart-placeholder .bar {
+  width: 30px;
+  background-color: #FF6B6B;
+  opacity: 0.8;
+  border-radius: 4px 4px 0 0;
+}
+
+.chart-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.chart-labels span {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* 成就屏幕样式 */
+.achievements-screen {
+  padding: 20px;
+}
+
+.achievements-screen h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #212529;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.achievement-item {
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  opacity: 0.5;
+}
+
+.achievement-item.unlocked {
+  background-color: #ffffff;
+  border-color: #FFD166;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  opacity: 1;
+}
+
+.achievement-icon {
+  font-size: 28px;
+  margin-right: 12px;
+}
+
+.achievement-info h3 {
+  font-size: 16px;
+  color: #212529;
+  margin-bottom: 4px;
+}
+
+.achievement-info p {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* 锁定屏幕样式 */
+.locked-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #212529;
+  color: white;
+  text-align: center;
+}
+
+.locked-content {
+  padding: 40px 20px;
+}
+
+.lock-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.locked-screen h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.locked-screen .timer-display {
+  font-size: 64px;
+  color: white;
+  margin: 30px 0;
+}
+
+.lock-message {
+  font-size: 16px;
+  color: #ced4da;
+  margin-bottom: 40px;
+}
+
+.unlock-btn {
+  padding: 12px 30px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.unlock-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 桌面端登录屏幕样式 */
+.login-screen-desktop {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #66a4ea 0%, #a24b61 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-screen-desktop {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #66a4ea 0%, #a24b61 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-screen-desktop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+  pointer-events: none;
+}
+
+.register-screen-desktop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+  pointer-events: none;
+}
+
+.login-container-desktop {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 60px 80px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.8s ease-out;
+  height: 620px;
+}
+
+.register-container {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 60px 80px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.8s ease-out;
+  height: 720px;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.login-content {
+  text-align: center;
+}
+
+.login-header {
+  margin-bottom: 20px;
+}
+
+.app-logo-desktop {
+  font-size: 80px;
+  margin-bottom: 20px;
+  display: block;
+  animation: bounce 3s infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.app-title-desktop {
+  font-size: 42px;
+  color: #2c3e50;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-subtitle-desktop {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin: 0 0 40px 0;
+  font-weight: 400;
+}
+
+.login-form-wrapper {
+  margin-bottom: 40px;
+}
+
+.login-form-desktop {
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  align-items: end;
+}
+
+.login-form-desktop.register-form {
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.login-form-desktop.register-form .input-group {
+  margin-bottom: 0;
+}
+
+.login-form-desktop.register-form .login-btn-primary .register-btn-primary {
+  grid-column: span 1;
+  margin-top: 10px;
+}
+
+.login-form-desktop .input-group:nth-child(1),
+.login-form-desktop .input-group:nth-child(2) {
+  margin-bottom: 0;
+}
+
+.login-form-desktop .login-btn-primary {
+  grid-column: span 2;
+  margin-top: 20px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  z-index: 2;
+  color: #95a5a6;
+  transition: color 0.3s ease;
+}
+
+.login-input {
+  width: 100%;
+  padding: 20px 25px 20px 60px;
+  border: 2px solid #ecf0f1;
+  border-radius: 18px;
+  font-size: 16px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.register-input {
+  width: 100%;
+  padding: 20px 25px 20px 60px;
+  border: 2px solid #ecf0f1;
+  border-radius: 18px;
+  font-size: 16px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.login-input:focus {
+  border-color: #FF6B6B;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+  transform: translateY(-1px);
+}
+
+.register-input:focus {
+  border-color: #FF6B6B;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+  transform: translateY(-1px);
+}
+
+.login-input:focus + .input-icon,
+.input-group:focus-within .input-icon {
+  color: #FF6B6B;
+}
+
+.register-input:focus + .input-icon,
+.input-group:focus-within .input-icon {
+  color: #FF6B6B;
+}
+
+.login-input::placeholder {
+  color: #bdc3c7;
+}
+
+.register-input::placeholder {
+  color: #bdc3c7;
+}
+
+.login-btn-primary {
+  width: 100%;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+}
+
+.register-btn-primary {
+  width: 100%;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+}
+
+.login-btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.register-btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-btn-primary:hover::before {
+  left: 100%;
+}
+
+.register-btn-primary:hover::before {
+  left: 100%;
+}
+
+.login-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
+}
+
+.register-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
+}
+
+.login-btn-primary:active {
+  transform: translateY(0);
+}
+
+.register-btn-primary:active {
+  transform: translateY(0);
+}
+
+.register-btn-secondary {
+  width: 100%;
+  padding: 0px 0px;
+  height: 30px;
+  background: transparent;
+  color: #7f8c8d;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0px;
+  position: relative;
+  overflow: hidden;
+  
+}
+
+.register-btn-secondary:hover {
+  background: rgba(127, 140, 141, 0.1);
+  color: #5a6c75;
+  transform: translateY(-1px);
+}
+
+.register-btn-secondary:active {
+  transform: translateY(0);
+  background: rgba(127, 140, 141, 0.15);
+}
+
+/* 错误提示样式 */
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  padding-left: 40px; /* 与输入框图标对齐 */
+  line-height: 1.2;
+}
+
+.register-input.error {
+  border-color: #e74c3c !important;
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+.register-input.error:focus {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+/* 桌面端登录界面响应式设计 */
+@media (min-width: 1200px) {
+  .login-container-desktop {
+    max-width: 900px;
+    padding: 70px 100px;
+  }
+  
+  .login-form-desktop {
+    gap: 30px;
+  }
+  
+  .features-grid {
+    gap: 25px;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-container-desktop {
+    max-width: 650px;
+    padding: 50px 60px;
+  }
+  
+  .register-container {
+    max-width: 650px;
+    padding: 50px 60px;
+  }
+  
+  .login-form-desktop {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .login-form-desktop .login-btn-primary {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-container-desktop {
+    max-width: 100%;
+    margin: 0 15px;
+    padding: 40px 30px;
+  }
+  
+  .register-container {
+    max-width: 100%;
+    margin: 0 15px;
+    padding: 40px 30px;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .app-title-desktop {
+    font-size: 36px;
+  }
+  
+  .app-logo-desktop {
+    font-size: 60px;
+  }
+}
+
+/* 番茄钟阶段指示器 */
+.phase-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 8px;
+}
+
+.phase-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.phase-badge.focus {
+  background: linear-gradient(45deg, #ff6b35, #ff8a50);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.phase-badge.break {
+  background: linear-gradient(45deg, #4CAF50, #66BB6A);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.pomodoro-count {
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* 进度圆环 */
+.timer-progress-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.timer-display-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-display {
+  font-size: 48px;
+  font-weight: 300;
+  color: #333;
+  margin: 0;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+}
+
+.timer-percentage {
+  font-size: 16px;
+  color: #888;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* 控制按钮更新 */
+.timer-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.control-btn.start {
+  background: linear-gradient(45deg, #4CAF50, #66BB6A);
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.control-btn.start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.control-btn.pause {
+  background: linear-gradient(45deg, #FF9800, #FFB74D);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.control-btn.pause:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+}
+
+.control-btn.reset {
+  background: linear-gradient(45deg, #9E9E9E, #BDBDBD);
+  color: white;
+  box-shadow: 0 4px 15px rgba(158, 158, 158, 0.3);
+}
+
+.control-btn.reset:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(158, 158, 158, 0.4);
+}
+
+.control-btn.skip {
+  background: linear-gradient(45deg, #2196F3, #42A5F5);
+  color: white;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.control-btn.skip:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.control-btn.skip:disabled {
+  background: #E0E0E0;
+  color: #9E9E9E;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.control-btn.settings {
+  background: linear-gradient(45deg, #607D8B, #78909C);
+  color: white;
+  box-shadow: 0 4px 15px rgba(96, 125, 139, 0.3);
+}
+
+.control-btn.settings:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(96, 125, 139, 0.4);
+}
+
+/* 今日统计 */
+.daily-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ff6b35;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+/* 设置面板增强 */
+.settings-group {
+  margin: 20px 0;
+}
+
+.settings-group label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.settings-info {
+  background: rgba(33, 150, 243, 0.1);
+  border-left: 4px solid #2196F3;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.settings-info p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 锁定屏幕增强 */
+.lock-phase-indicator {
+  margin: 20px 0;
+}
+
+/* 成就系统动态解锁效果 */
+.achievement-item.unlocked {
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  border: 2px solid #4CAF50;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+  transform: scale(1.02);
+}
+
+.achievement-item.unlocked .achievement-icon {
+  animation: achievementGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes achievementGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+  }
+}
+
+/* 激励语句样式增强 */
+.motivational-quote {
+  font-style: italic;
+  color: #666;
+  font-size: 16px;
+  margin: 20px 0;
+  text-align: center;
+  position: relative;
+  padding: 0 20px;
+}
+
+.motivational-quote::before,
+.motivational-quote::after {
+  content: '"';
+  font-size: 24px;
+  color: #ff6b35;
+  font-weight: bold;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .timer-progress-ring svg {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .timer-display {
+    font-size: 36px;
+  }
+  
+  .daily-stats {
+    gap: 20px;
+  }
+  
+  .timer-controls {
+    gap: 10px;
+  }
+  
+  .control-btn {
+    padding: 10px 15px;
+    font-size: 12px;
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer-progress-ring svg {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .timer-display {
+    font-size: 28px;
+  }
+  
+  .daily-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .timer-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .control-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
