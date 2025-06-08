@@ -69,7 +69,7 @@ function App() {
    */
   function hasSevenConsecutivePomodoros() {
     // 读取存储的数据
-    const stats = dataStorage.load("pomodoro_stats");
+    const stats = dataStorage.load("pomodoro_stats") || pomodoroStats;
     if (!stats || !stats.Pomodoros) return false;
     
     const list = stats.Pomodoros || [];
@@ -173,13 +173,13 @@ function App() {
   
   // 在组件加载完成后从数据存储加载任务
   useEffect(() => {
-    const storedTasks = dataStorage.load("tasks");
+    const storedTasks = dataStorage.load("tasks") ;
     if (storedTasks) {
       setTasks(storedTasks);
     }
     
     // 加载番茄钟统计数据
-    const storedStats = dataStorage.load("pomodoro_stats");
+    const storedStats = dataStorage.load("pomodoro_stats") || pomodoroStats;
     if (storedStats) {
       // 如果存储的数据中有 Pomodoros 数组，需要将字符串转换为 StringAlias 对象
       const processedStats = {

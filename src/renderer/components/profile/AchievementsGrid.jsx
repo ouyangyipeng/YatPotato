@@ -55,7 +55,7 @@ const AchievementsGrid = ({
         </div>
         <div className="consecutive-days-info">
           <h3>📅 累计使用统计</h3>
-          <p>当前累计使用天数: <strong>{count_pomodoros(dataStorage.load("pomodoro_stats"))}</strong> 天</p>
+          <p>当前累计使用天数: <strong>{count_pomodoros(dataStorage.load("pomodoro_stats") || pomodoroStats)}</strong> 天</p>
         </div>
       </div>
     </>
