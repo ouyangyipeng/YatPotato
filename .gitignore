@@ -1,13 +1,8 @@
 node_modules
-
-# 忽略 Cursor AI 规则配置
-.cursor/rules/
-
-# 忽略 README.md 文件
-README.md
-
-# 忽略数据存储目录
-data/
-
-
-build/
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+build
+.vscode
