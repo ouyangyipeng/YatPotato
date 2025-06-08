@@ -10,8 +10,8 @@ let mainWindow;
 function createWindow() {
   // 创建浏览器窗口
   mainWindow = new BrowserWindow({
-    width: 1400,
-    height: 700,
+    width: 1600,
+    height: 950,
     webPreferences: {
       partition: String(+new Date()),
       nodeIntegration: true,      
