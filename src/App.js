@@ -53,6 +53,11 @@ function App() {
     confirmPassword: ''
   });
 
+  // 新增：个人资料相关状态
+  const [signature, setSignature] = useState('');
+  const [isEditingSignature, setIsEditingSignature] = useState(false);
+  const [tempSignature, setTempSignature] = useState('');
+
   const count_pomodoros = (stats) => {
     return stats.Pomodoros.length;
   }
@@ -290,6 +295,26 @@ function hasSevenConsecutivePomodoros() {
       setRegisterErrors(errors);
     }
   }, [registerUsername, email, registerPassword, confirmPassword, showRegister]);
+
+  // 在 useEffect 中加载个人资料数据
+  useEffect(() => {
+    const storedSignature = dataStorage.load("user_signature") || "今天也是专注的一天！";
+    setSignature(storedSignature);
+    setTempSignature(storedSignature);
+  }, [dataStorage]);
+
+  // 保存签名的处理函数
+  const handleSaveSignature = () => {
+    setSignature(tempSignature);
+    dataStorage.save("user_signature", tempSignature);
+    setIsEditingSignature(false);
+  };
+
+  // 取消编辑的处理函数
+  const handleCancelEdit = () => {
+    setTempSignature(signature);
+    setIsEditingSignature(false);
+  };
 
   // 应用自定义时长
   const applyCustomTime = () => {
@@ -779,6 +804,101 @@ function hasSevenConsecutivePomodoros() {
     </div>
   );
 
+  // 渲染个人主页
+  const renderProfileScreen = () => {
+    return (
+      <div className="profile-screen">
+        {/* 个人资料头部区域 */}
+        <div className="profile-header">
+          <div className="user-avatar">
+            <span>🍅</span>
+          </div>
+          <div className="user-info">
+            <h1 className="username">test</h1>
+            
+            {isEditingSignature ? (
+              <div className="signature-edit">
+                <input
+                  type="text"
+                  value={tempSignature}
+                  onChange={(e) => setTempSignature(e.target.value)}
+                  autoFocus
+                  maxLength={50}
+                />
+                <div className="edit-actions">
+                  <button className="save-btn" onClick={handleSaveSignature}>保存</button>
+                  <button className="cancel-btn" onClick={handleCancelEdit}>取消</button>
+                </div>
+              </div>
+            ) : (
+              <div className="signature-display">
+                <p>{signature}</p>
+                <button 
+                  className="edit-btn" 
+                  onClick={() => setIsEditingSignature(true)}
+                  title="编辑个性签名"
+                >
+                  ✏️
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 成就系统部分 */}
+        <h2 className="achievements-title">我的成就</h2>
+        <div className="achievements-grid">
+          <div className={`achievement-item ${pomodoroStats.totalPomodoros >= 1 ? 'unlocked' : ''}`}>
+            <div className="achievement-icon">🔥</div>
+            <div className="achievement-info">
+              <h3>初学者</h3>
+              <p>完成第一个番茄钟</p>
+            </div>
+          </div>
+          <div className={`achievement-item ${pomodoroStats.todayPomodoros >= 5 ? 'unlocked' : ''}`}>
+          <div className="achievement-icon">⚡</div>
+          <div className="achievement-info">
+            <h3>高效达人</h3>
+            <p>一天内完成5个番茄钟</p>
+          </div>
+        </div>
+        <div className={`achievement-item ${hasSevenConsecutivePomodoros() ? 'unlocked' : ''}`}>
+          <div className="achievement-icon">🏆</div>
+          <div className="achievement-info">
+            <h3>持之以恒</h3>
+            <p>连续7天使用YatPotato</p>
+          </div>
+        </div>
+        <div className={`achievement-item ${pomodoroStats.totalPomodoros >= 20 ? 'unlocked' : ''}`}>
+          <div className="achievement-icon">🌟</div>
+          <div className="achievement-info">
+            <h3>番茄大师</h3>
+            <p>完成20个番茄钟</p>
+          </div>
+        </div>
+        <div className={`achievement-item ${pomodoroStats.totalFocusTime >= 6000 ? 'unlocked' : ''}`}>
+          <div className="achievement-icon">💎</div>
+          <div className="achievement-info">
+            <h3>专注王者</h3>
+            <p>累计专注时长超过100小时</p>
+          </div>
+        </div>
+        <div className="achievement-item">
+          <div className="achievement-icon">🚀</div>
+          <div className="achievement-info">
+            <h3>效率狂人</h3>
+            <p>单周完成30个番茄钟</p>
+          </div>
+        </div>
+          <div className="consecutive-days-info">
+            <h3>📅 累计使用统计</h3>
+            <p>当前累计使用天数: <strong>{count_pomodoros(dataStorage.load("pomodoro_stats"))}</strong> 天</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // 渲染登录屏幕
   const renderLoginScreen = () => (
     <div className="login-screen-desktop">
@@ -941,7 +1061,8 @@ function hasSevenConsecutivePomodoros() {
             {activeScreen === 'timer' && renderTimerScreen()}
             {activeScreen === 'tasks' && renderTaskListScreen()}
             {activeScreen === 'reports' && renderReportsScreen()}
-            {activeScreen === 'achievements' && renderAchievementsScreen()}
+            {/* {activeScreen === 'achievements' && renderAchievementsScreen()} */}
+            {activeScreen === 'profile' && renderProfileScreen()}
           </div>
           
           <nav className="bottom-navigation">
@@ -966,12 +1087,19 @@ function hasSevenConsecutivePomodoros() {
               📊
               <span>报告</span>
             </button>
-            <button 
+            {/* <button 
               className={activeScreen === 'achievements' ? 'active' : ''}
               onClick={() => setActiveScreen('achievements')}
             >
               🏆
               <span>成就</span>
+            </button> */}
+            <button 
+              className={activeScreen === 'profile' ? 'active' : ''}
+              onClick={() => setActiveScreen('profile')}
+            >
+              👤
+              <span>个人主页</span>
             </button>
             <button onClick={toggleScreenLock}>
               🔒
