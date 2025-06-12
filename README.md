@@ -28,7 +28,9 @@ yatpotato-react-test/
 └── package.json           # 项目配置
 ```
 
-![类](E:\study\SE\YatPotato\图\类.png)
+### UML图
+
+![类](类.png)
 
 ## 开发命令
 
@@ -249,7 +251,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
   
     顺序图如下：
   
-    ![顺序](E:\study\SE\YatPotato\图\顺序.png)
+    ![顺序](顺序.png)
 
 #### 2. 任务状态转换图
 - **状态**：待办（ToDo）、进行中（InProgress）、已完成（Done）、已归档（Archived）、已删除（Deleted）
@@ -262,7 +264,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
   
     状态图如下：
   
-    ![状态](E:\study\SE\YatPotato\图\状态.png)
+    ![状态](状态.png)
 
 #### 3. 任务创建、编辑和删除流程
 - **流程描述**：
@@ -276,4 +278,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
   
     活动图如下：
   
-    ![活动](E:\study\SE\YatPotato\图\活动.png)
+    ![活动](活动.png)
