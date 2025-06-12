@@ -28,6 +28,8 @@ yatpotato-react-test/
 └── package.json           # 项目配置
 ```
 
+![类](E:\study\SE\YatPotato\图\类.png)
+
 ## 开发命令
 
 ### 标准 React 命令
@@ -229,3 +231,49 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## 相关图
+
+#### 1. 用户添加任务交互流程
+- **参与者**：用户、应用（App）、任务管理器（TaskManager）、任务列表（TaskList）
+- **流程描述**：
+  - 用户点击“添加任务”按钮。
+  
+  - 应用接收到用户请求，调用任务管理器的 `addTask(task)` 方法。
+  
+  - 任务管理器保存任务，并返回任务保存成功的确认信息。
+  
+  - 应用接收到任务保存成功的消息后，更新任务列表。
+  
+  - 最后，应用重新渲染界面，展示最新的任务列表给用户。
+  
+    顺序图如下：
+  
+    ![顺序](E:\study\SE\YatPotato\图\顺序.png)
+
+#### 2. 任务状态转换图
+- **状态**：待办（ToDo）、进行中（InProgress）、已完成（Done）、已归档（Archived）、已删除（Deleted）
+- **流程描述**：
+  - 任务从“待办”状态开始，可以通过 `startTask()` 方法转换为“进行中”状态。
+  
+  - “进行中”的任务可以通过 `completeTask()` 方法变为“已完成”，也可以通过 `archiveTask()` 方法变为“已归档”。
+  
+  - “已完成”和“已归档”的任务都可以通过 `deleteTask()` 方法被删除，进入“已删除”状态。
+  
+    状态图如下：
+  
+    ![状态](E:\study\SE\YatPotato\图\状态.png)
+
+#### 3. 任务创建、编辑和删除流程
+- **流程描述**：
+  - **创建任务**：用户创建新任务，输入任务详情，系统验证输入。如果输入有效，保存任务并显示保存成功的确认信息；如果无效，显示验证错误信息。
+  
+  - **编辑任务**：用户可以选择编辑已存在的任务，修改后重新保存。
+  
+  - **标记完成**：用户可以将任务标记为已完成，系统更新任务状态。
+  
+  - **删除任务**：用户可以选择删除任务，系统执行删除操作。
+  
+    活动图如下：
+  
+    ![活动](E:\study\SE\YatPotato\图\活动.png)
