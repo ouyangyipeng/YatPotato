@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PomodoroTimer from './components/PomodoroTimer';
 import StringRef from './utils/stringRef';
 
-function App() {
+const App = () => {
   // 添加ref来管理输入框焦点
   const usernameInputRef = useRef(null);
   const passwordInputRef = useRef(null);
@@ -66,7 +66,7 @@ function App() {
  * 直接从 dataStorage.load("pomodoro_stats") 读取 Pomodoros 列表
  * @returns {boolean}
  */
-function hasSevenConsecutivePomodoros() {
+const hasSevenConsecutivePomodoros = () => {
   // 读取存储的数据
   const stats = dataStorage.load("pomodoro_stats");
   if (!stats || !stats.Pomodoros) return false;
@@ -105,7 +105,7 @@ function hasSevenConsecutivePomodoros() {
   for (let i = 0; i <= days.length - 7; i++) {
     let ok = true;
     for (let j = 1; j < 7; j++) {
-      if (days[i + j] !== days[i] + j) {
+      if (days[i + j] != days[i] + j) {
         ok = false;
         break;
       }
@@ -135,10 +135,10 @@ function hasSevenConsecutivePomodoros() {
           const todayPomodoros = prev.Pomodoros;
           console.log(todayPomodoros.length);
           const nowPomodoro = ()=>{
-            if(todayPomodoros.length == 0){
+            if(todayPomodoros.length === 0){
               return [...todayPomodoros,today];
             }else{
-              if (todayPomodoros[todayPomodoros.length - 1]._value == today.value()) {
+              if (todayPomodoros[todayPomodoros.length - 1]._value === today.value()) {
                 return todayPomodoros; 
               }else{
                 return [...todayPomodoros, today];
@@ -190,7 +190,7 @@ function hasSevenConsecutivePomodoros() {
     }
   }, [dataStorage]); // 现在 dataStorage 是稳定的，所以这个依赖是安全的
 
-  function updateTasks(newTasks){
+  const updateTasks = (newTasks) => {
     try{
       // const bindedTasks = window.DataStorage.bindNewArrayElement(newTasks);
       dataStorage.save("tasks", newTasks);
@@ -207,7 +207,7 @@ function hasSevenConsecutivePomodoros() {
 
   // 添加新任务
   const addTask = () => {
-    if (newTaskText.trim() !== '') {
+    if (newTaskText.trim() != '') {
       updateTasks([...tasks, { id: Date.now(), title: newTaskText, completed: false }]);
       setNewTaskText('');
     }
@@ -230,8 +230,8 @@ function hasSevenConsecutivePomodoros() {
   }
 
   const deleteTask = (id) => {
-    // const updatedTasks = tasks.filter(task => task.id !== id);
-    const updatedTasks = tasks.map(task => task.id == id ? {...task, isDelete: true} : task);
+    // const updatedTasks = tasks.filter(task => task.id !=== id);
+    const updatedTasks = tasks.map(task => task.id === id ? {...task, isDelete: true} : task);
     updateTasks(updatedTasks);
   };
 
@@ -288,7 +288,7 @@ function hasSevenConsecutivePomodoros() {
         errors.password = '密码至少需要6个字符';
       }
 
-      if (confirmPassword.length > 0 && confirmPassword !== registerPassword) {
+      if (confirmPassword.length > 0 && confirmPassword != registerPassword) {
         errors.confirmPassword = '两次输入的密码不一致';
       }
 
@@ -446,7 +446,7 @@ function hasSevenConsecutivePomodoros() {
       hasError = true;
     }
 
-    if (registerPassword !== confirmPassword) {
+    if (registerPassword != confirmPassword) {
       alert('两次输入的密码不一致');
       setRegisterErrors(prev => ({ ...prev, confirmPassword: '两次输入的密码不一致' }));
       hasError = true;
@@ -623,7 +623,7 @@ function hasSevenConsecutivePomodoros() {
         <button onClick={addTask}>添加</button>
       </div>
       <ul className="task-list">
-        {tasks.map(task => task.isDelete == true ? null : (
+        {tasks.map(task => task.isDelete === true ? null : (
           <li key={task.id} className={task.completed ? 'completed' : ''} style={{display: 'flex', alignItems: 'center', position: 'relative'}}>
             {editingTaskId === task.id ? (
               <>
