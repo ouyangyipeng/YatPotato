@@ -2,6 +2,7 @@
 // This file provides a general interface to call any interactor function.
 
 import { getInteractor as getTasksInteractor, getInteractorDescription as getTasksInteractorDescription } from '../renderer/components/tasks/TasksListInteractor.js';
+import { getInteractor as getTableInteractor, getInteractorDescription as getTableInteractorDescription } from '../renderer/components/table/TableInteractor.js';
 
 const interactors = new Map();
 const interactorDescriptions = [];
@@ -21,6 +22,18 @@ const initializeInteractors = () => {
     }
   }
   interactorDescriptions.push(getTasksInteractorDescription);
+
+  // --- Table Interactor ---
+  const tableInteractor = getTableInteractor();
+  for (const key in tableInteractor) {
+    if (Object.hasOwnProperty.call(tableInteractor, key)) {
+      if (interactors.has(key)) {
+        console.warn(`Function name conflict: ${key} is already registered.`);
+      }
+      interactors.set(key, tableInteractor[key]);
+    }
+  }
+  interactorDescriptions.push(getTableInteractorDescription);
 
   // --- Add other interactors here in the future ---
 };

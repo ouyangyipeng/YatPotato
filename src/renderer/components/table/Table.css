@@ -1,0 +1,81 @@
+.table-page-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.table-controls label {
+    font-weight: bold;
+}
+
+.table-controls input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.table-controls button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table-controls button:hover {
+    background-color: #0056b3;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.beautiful-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.beautiful-table th,
+.beautiful-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.beautiful-table thead th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+}
+
+.beautiful-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.beautiful-table td {
+    cursor: pointer;
+}
+
+.beautiful-table td input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

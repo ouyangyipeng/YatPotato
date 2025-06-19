@@ -10,6 +10,7 @@ import LockScreen from '../pages/LockScreen';
 import LoginPage from '../auth/LoginPage';
 import RegisterPage from '../auth/RegisterPage';
 import ChatPage from '../chat/ChatPage'; // <--- 导入ChatPage
+import TablePage from '../table/TablePage';
 
 const AppRouter = ({ 
   isLogin, 
@@ -109,6 +110,7 @@ const AppRouter = ({
           <Route path="/reports" element={<ReportsPage {...appProps} />} />
           <Route path="/profile" element={<ProfilePage {...appProps} />} />
           <Route path="/chat" element={<ChatPage {...appProps} />} /> 
+          <Route path="/table" element={<TablePage {...appProps} />} />
           <Route path="*" element={<Navigate to="/timer" replace />} />
         </Routes>
       </MainLayout>

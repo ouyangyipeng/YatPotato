@@ -89,7 +89,7 @@ const getAIResponse = async (messages, imagePath = null) => {
       apiKey: KEY,
       dangerouslyAllowBrowser: true,
       messages: processedMessages,
-      max_tokens: 1000,
+      max_tokens: 8000,
     });
     return completion.choices[0].message.content;
   } catch (error) {
