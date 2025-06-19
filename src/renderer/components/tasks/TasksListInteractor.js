@@ -6,14 +6,14 @@ const DATA_STORAGE_KEY = "ds-test";
 // Helper function to load tasks from data storage
 const loadTasks = async () => {
   const dataStorage = await window.DataStorage.loadDataStorage(DATA_STORAGE_KEY);
-  const tasks = await dataStorage.getItem('tasks');
+  const tasks = await dataStorage.load('tasks');
   return tasks ? JSON.parse(tasks) : [];
 };
 
 // Helper function to save tasks to data storage
 const saveTasks = async (tasks) => {
   const dataStorage = await window.DataStorage.loadDataStorage(DATA_STORAGE_KEY);
-  await dataStorage.setItem('tasks', JSON.stringify(tasks));
+  await dataStorage.save('tasks', tasks);
 };
 
 /**

@@ -52,8 +52,8 @@ const ChatPage = () => {
   return (
     <div className="chat-page">
       <div className="chat-header">
-        <h2>AI 助教</h2>
-        <p>Yat-Copilot</p>
+        <h2>AI 小助手</h2>
+        <p>Yat-Potato</p>
       </div>
       <div className="chat-messages">
         {messages.map((msg, index) => (

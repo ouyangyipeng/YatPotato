@@ -3,11 +3,16 @@
 .chat-page {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 80vh; /* 使用视窗高度的80%，让聊天框更高 */
+  min-height: 600px; /* 设置最小高度确保在小屏幕上也有足够高度 */
+  max-height: 90vh; /* 设置最大高度防止过高 */
   background-color: #f4f7f6;
-  border-radius: 8px;
+  border-radius: 12px; /* 稍微增加圆角 */
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* 增强阴影效果，提升卡片感 */
+  margin: 2vh auto; /* 上下留一些边距，水平居中 */
+  width: 95%; /* 控制宽度不要占满全屏 */
+  max-width: 1200px; /* 设置最大宽度 */
 }
 
 .chat-header {
