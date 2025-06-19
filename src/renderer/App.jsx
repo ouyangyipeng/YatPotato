@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PomodoroTimer from './components/PomodoroTimer';
 import StringRef from './utils/stringRef';
 import AppRouter from './components/common/AppRouter';
+import PomodoroModal from './components/common/PomodoroModal';
 
 function App() {
   // 添加ref来管理输入框焦点
@@ -54,11 +55,34 @@ function App() {
     password: '',
     confirmPassword: ''
   });
-
   // 新增：个人资料相关状态
   const [signature, setSignature] = useState('');
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const [tempSignature, setTempSignature] = useState('');
+  // 番茄钟弹窗状态
+  const [pomodoroModal, setPomodoroModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    icon: '🍅',
+    type: 'success'
+  });
+
+  // 显示番茄钟完成弹窗
+  const showPomodoroModal = (title, message, icon = '🍅', type = 'success') => {
+    setPomodoroModal({
+      isOpen: true,
+      title,
+      message,
+      icon,
+      type
+    });
+  };
+
+  // 关闭番茄钟弹窗
+  const closePomodoroModal = () => {
+    setPomodoroModal(prev => ({ ...prev, isOpen: false }));
+  };
   const count_pomodoros = (stats) => {
     return stats.Pomodoros.length;
   }
@@ -222,14 +246,14 @@ function App() {
 
           return newStats;
         });
-      }
-    },
+      }    },
     onTimerReset: () => {
       console.log('计时器已重置');
     },
     onTimerStateChange: (isRunning, minutes, seconds) => {
       // 可以在这里处理计时器状态变化
-    }
+    },
+    onShowModal: showPomodoroModal // 添加弹窗回调
   });
 
   // 添加调试信息
@@ -581,47 +605,60 @@ function App() {
     getThisWeekPomodoroCount,
     hasWeekly30Pomodoros
   };
-
   // 主渲染函数
   return (
-    <AppRouter
-      // Auth state
-      isLogin={isLogin}
-      isScreenLocked={isScreenLocked}
-      showRegister={showRegister}
-      // Auth handlers
-      handleLogin={handleLogin}
-      handleRegister={handleRegister}
-      submitRegister={submitRegister}
-      backToLogin={backToLogin}
-      // Screen lock handler
-      toggleScreenLock={toggleScreenLock}
-      // Auth form state
-      username={username}
-      password={password}
-      setUsername={setUsername}
-      setPassword={setPassword}
-      usernameInputRef={usernameInputRef}
-      passwordInputRef={passwordInputRef}
-      handleUsernameKeyPress={handleUsernameKeyPress}
-      handlePasswordKeyPress={handlePasswordKeyPress}
-      // Register state
-      registerUsername={registerUsername}
-      registerPassword={registerPassword}
-      confirmPassword={confirmPassword}
-      email={email}
-      setRegisterUsername={setRegisterUsername}
-      setRegisterPassword={setRegisterPassword}
-      setConfirmPassword={setConfirmPassword}
-      setEmail={setEmail}
-      registerErrors={registerErrors}
-      handleRegisterUsernameKeyPress={handleRegisterUsernameKeyPress}
-      handleRegisterEmailKeyPress={handleRegisterEmailKeyPress}
-      handleRegisterPasswordKeyPress={handleRegisterPasswordKeyPress}
-      handleRegisterConfirmPasswordKeyPress={handleRegisterConfirmPasswordKeyPress}
-      // App data and handlers
-      {...appProps}
-    />
+    <>
+      <AppRouter
+        // Auth state
+        isLogin={isLogin}
+        isScreenLocked={isScreenLocked}
+        showRegister={showRegister}
+        // Auth handlers
+        handleLogin={handleLogin}
+        handleRegister={handleRegister}
+        submitRegister={submitRegister}
+        backToLogin={backToLogin}
+        // Screen lock handler
+        toggleScreenLock={toggleScreenLock}
+        // Auth form state
+        username={username}
+        password={password}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        usernameInputRef={usernameInputRef}
+        passwordInputRef={passwordInputRef}
+        handleUsernameKeyPress={handleUsernameKeyPress}
+        handlePasswordKeyPress={handlePasswordKeyPress}
+        // Register state
+        registerUsername={registerUsername}
+        registerPassword={registerPassword}
+        confirmPassword={confirmPassword}
+        email={email}
+        setRegisterUsername={setRegisterUsername}
+        setRegisterPassword={setRegisterPassword}
+        setConfirmPassword={setConfirmPassword}
+        setEmail={setEmail}
+        registerErrors={registerErrors}
+        handleRegisterUsernameKeyPress={handleRegisterUsernameKeyPress}
+        handleRegisterEmailKeyPress={handleRegisterEmailKeyPress}
+        handleRegisterPasswordKeyPress={handleRegisterPasswordKeyPress}
+        handleRegisterConfirmPasswordKeyPress={handleRegisterConfirmPasswordKeyPress}
+        // App data and handlers
+        {...appProps}
+      />
+      
+      {/* 番茄钟完成弹窗 */}
+      <PomodoroModal
+        isOpen={pomodoroModal.isOpen}
+        onClose={closePomodoroModal}
+        title={pomodoroModal.title}
+        message={pomodoroModal.message}
+        icon={pomodoroModal.icon}
+        type={pomodoroModal.type}
+        autoClose={true}
+        autoCloseDelay={5000}
+      />
+    </>
   );
 }
 

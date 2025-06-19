@@ -6,7 +6,8 @@ const PomodoroTimer = ({
   onTimerComplete,
   onTimerReset,
   customTimerLength,
-  onTimerStateChange
+  onTimerStateChange,
+  onShowModal // 新增：用于显示弹窗的回调函数
 }) => {
   // 使用总秒数来统一管理时间
   const [totalSeconds, setTotalSeconds] = useState(initialMinutes * 60);
@@ -157,7 +158,7 @@ const PomodoroTimer = ({
       clearInterval(intervalRef.current);
     }
 
-    return () => clearInterval(intervalRef.current);
+     return () => clearInterval(intervalRef.current);
   }, [isRunning]);
 
   // 处理计时器完成
@@ -177,16 +178,29 @@ const PomodoroTimer = ({
           icon: "/favicon.ico"
         });
       }
-      
-      // 自动开始休息
+        // 自动开始休息
       if (newCount % 4 === 0) {
         // 每4个番茄钟后长休息(15分钟)
         setTotalSeconds(15 * 60);
-        alert(`恭喜完成第${newCount}个番茄钟！\n现在开始15分钟长休息 🎉`);
+        if (onShowModal) {
+          onShowModal(
+            "恭喜完成番茄钟！ 🎉", 
+            `太棒了！您已完成第${newCount}个番茄钟！\n现在开始15分钟长休息，好好放松一下吧~`,
+            "🎉",
+            "success"
+          );
+        }
       } else {
         // 短休息(5分钟)
         setTotalSeconds(5 * 60);
-        alert(`恭喜完成第${newCount}个番茄钟！\n现在开始5分钟休息 ☕`);
+        if (onShowModal) {
+          onShowModal(
+            "番茄钟完成！ ☕", 
+            `出色！您已完成第${newCount}个番茄钟！\n现在开始5分钟休息，喝杯咖啡吧~`,
+            "☕",
+            "success"
+          );
+        }
       }
       setIsBreak(true);
     } else {
@@ -197,10 +211,16 @@ const PomodoroTimer = ({
           icon: "/favicon.ico"
         });
       }
-      
-      setTotalSeconds((customTimerLength || 25) * 60);
+        setTotalSeconds((customTimerLength || 25) * 60);
       setIsBreak(false);
-      alert("休息结束！准备开始新的番茄钟 🍅");
+      if (onShowModal) {
+        onShowModal(
+          "休息结束！ 🍅", 
+          "休息时间结束啦！\n准备开始新的番茄钟，继续专注工作吧！",
+          "🍅",
+          "break"
+        );
+      }
     }
     
     // 回调函数通知父组件
