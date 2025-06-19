@@ -193,6 +193,8 @@ function App() {
         const timestamp = now.getTime();
 
         setPomodoroStats(prev => {
+          prev = dataStorage.load("pomodoro_stats") || prev;
+
           // 创建新的番茄钟记录
           const newPomodoroRecord = {
             date: currentDate,
