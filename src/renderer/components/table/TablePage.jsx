@@ -48,53 +48,68 @@ const TablePage = () => {
     const handleResetTable = async () => {
         const updatedTable = await interactor.resetTable();
         setTableData(updatedTable);
-    };
-
-    const handleDeleteRow = async (rowIndex) => {
-        const updatedTable = await interactor.deleteRow(rowIndex);
-        setTableData(updatedTable);
-    };
-
-    const handleDeleteColumn = async (colIndex) => {
-        const updatedTable = await interactor.deleteColumn(colIndex);
-        setTableData(updatedTable);
-    };
-
-    // No need for filtering, as the interactor now handles data directly
+    };    // No need for filtering, as the interactor now handles data directly
     const { headers = [], rows = [] } = tableData || {};
 
     return (
         <div className="table-page-container">
-            <div className="table-controls">
-                <label>
-                    Rows:
-                    <input type="number" value={rows.length} onChange={handleRowCountChange} min="0" />
-                </label>
-                <label>
-                    Columns:
-                    <input type="number" value={headers.length} onChange={handleColCountChange} min="0" />
-                </label>
-                <button onClick={handleResetTable}>Reset Table</button>
-            </div>
-            <div className="table-wrapper">
+            <div className="table-header">
+                <h2 className="table-title">📊 Data Table</h2>
+                <div className="table-controls">
+                    <div className="control-group">
+                        <label className="control-label">
+                            <span className="control-icon">📏</span>
+                            Rows
+                        </label>
+                        <input 
+                            type="number" 
+                            value={rows.length} 
+                            onChange={handleRowCountChange} 
+                            min="1" 
+                            className="control-input"
+                        />
+                    </div>
+                    <div className="control-group">
+                        <label className="control-label">
+                            <span className="control-icon">📐</span>
+                            Columns
+                        </label>
+                        <input 
+                            type="number" 
+                            value={headers.length} 
+                            onChange={handleColCountChange} 
+                            min="1" 
+                            className="control-input"
+                        />
+                    </div>
+                    <button onClick={handleResetTable} className="reset-btn">
+                        <span className="btn-icon">🔄</span>
+                        New Table
+                    </button>
+                </div>
+            </div>            <div className="table-wrapper">
                 <table className="beautiful-table">
                     <thead>
                         <tr>
                             {headers.map((header, colIndex) => (
-                                <th key={colIndex}>
-                                    {header.name}
-                                    <button className="delete-btn" onClick={() => handleDeleteColumn(colIndex)}>×</button>
+                                <th key={colIndex} className="table-header-cell">
+                                    <div className="header-content">
+                                        <span className="column-icon">📋</span>
+                                        <span className="header-text">{header.name}</span>
+                                    </div>
                                 </th>
                             ))}
-                            {/* Optional: Add a header for the delete row button column if needed */}
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {rows.map((row, rowIndex) => (
-                            <tr key={rowIndex}>
+                            <tr key={rowIndex} className="table-row">
                                 {headers.map((_, colIndex) => (
-                                    <td key={colIndex} onClick={() => setEditingCell({ rowIndex, colIndex })}>
+                                    <td 
+                                        key={colIndex} 
+                                        className="table-cell"
+                                        onClick={() => setEditingCell({ rowIndex, colIndex })}
+                                    >
                                         {editingCell && editingCell.rowIndex === rowIndex && editingCell.colIndex === colIndex ? (
                                             <input
                                                 type="text"
@@ -108,16 +123,25 @@ const TablePage = () => {
                                                     handleCellChange(rowIndex, colIndex, row[`col_${colIndex}`]);
                                                     setEditingCell(null);
                                                 }}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleCellChange(rowIndex, colIndex, row[`col_${colIndex}`]);
+                                                        setEditingCell(null);
+                                                    }
+                                                    if (e.key === 'Escape') {
+                                                        setEditingCell(null);
+                                                    }
+                                                }}
+                                                className="cell-input"
                                                 autoFocus
                                             />
                                         ) : (
-                                            row[`col_${colIndex}`] || '\u00A0'
+                                            <div className="cell-content">
+                                                {row[`col_${colIndex}`] || <span className="empty-cell">Click to edit</span>}
+                                            </div>
                                         )}
                                     </td>
                                 ))}
-                                <td className="delete-row-cell">
-                                    <button className="delete-btn" onClick={() => handleDeleteRow(rowIndex)}>×</button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
