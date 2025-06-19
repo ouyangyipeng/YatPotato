@@ -27,12 +27,14 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isScreenLocked, setIsScreenLocked] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);  
   const [pomodoroStats, setPomodoroStats] = useState({
     totalPomodoros: 0,
     todayPomodoros: 0,
     totalFocusTime: 0,
-    Pomodoros: []
+    Pomodoros: [], // 存储番茄钟记录：{ date, timestamp, duration, dayOfYear }
+    dailyStats: {}, // 按日期存储每日统计：{ "2025-6-19": { count: 5, focusTime: 125 } }
+    weeklyStats: {} // 按周存储每周统计：{ "2025-W25": { count: 30, focusTime: 750 } }
   });
 
   // 登录相关状态
@@ -57,10 +59,42 @@ function App() {
   const [signature, setSignature] = useState('');
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const [tempSignature, setTempSignature] = useState('');
-
   const count_pomodoros = (stats) => {
     return stats.Pomodoros.length;
   }
+
+  // 获取当前日期字符串 (YYYY-M-D)
+  const getCurrentDateString = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+  };
+
+  // 获取当前周字符串 (YYYY-WW)
+  const getCurrentWeekString = () => {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), 0, 1);
+    const days = Math.floor((now - startDate) / (24 * 60 * 60 * 1000));
+    const weekNumber = Math.ceil((days + startDate.getDay() + 1) / 7);
+    return `${now.getFullYear()}-W${weekNumber.toString().padStart(2, '0')}`;
+  };
+
+  // 计算今日完成的番茄钟数量
+  const getTodayPomodoroCount = (stats) => {
+    const today = getCurrentDateString();
+    return stats.dailyStats[today]?.count || 0;
+  };
+
+  // 计算本周完成的番茄钟数量
+  const getThisWeekPomodoroCount = (stats) => {
+    const thisWeek = getCurrentWeekString();
+    return stats.weeklyStats[thisWeek]?.count || 0;
+  };
+
+  // 检查是否单周完成30个番茄钟
+  const hasWeekly30Pomodoros = (stats) => {
+    const thisWeek = getCurrentWeekString();
+    return (stats.weeklyStats[thisWeek]?.count || 0) >= 30;
+  };
 
   /**
    * 检查是否存在 7 天连续打卡
@@ -125,39 +159,69 @@ function App() {
     customTimerLength: customTimerLength,
     onTimerStart: (isBreak) => {
       console.log(isBreak ? '休息开始' : '专注时间开始');
-    },
-    onTimerComplete: (isBreak, pomodoroCount) => {
+    },    onTimerComplete: (isBreak, pomodoroCount) => {
       if (!isBreak) {
         // 更新番茄钟统计
-        // 获取今天的日期字符串
-        const today = StringRef.today();
+        const now = new Date();
+        const currentDate = getCurrentDateString();
+        const currentWeek = getCurrentWeekString();
+        const timestamp = now.getTime();
 
-        let fdf = (prev) => {
+        setPomodoroStats(prev => {
+          // 创建新的番茄钟记录
+          const newPomodoroRecord = {
+            date: currentDate,
+            timestamp: timestamp,
+            duration: customTimerLength,
+            dayOfYear: Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24))
+          };
+
+          // 更新今日统计
+          const todayStats = prev.dailyStats[currentDate] || { count: 0, focusTime: 0 };
+          const newDailyStats = {
+            ...prev.dailyStats,
+            [currentDate]: {
+              count: todayStats.count + 1,
+              focusTime: todayStats.focusTime + customTimerLength
+            }
+          };
+
+          // 更新本周统计
+          const weekStats = prev.weeklyStats[currentWeek] || { count: 0, focusTime: 0 };
+          const newWeeklyStats = {
+            ...prev.weeklyStats,
+            [currentWeek]: {
+              count: weekStats.count + 1,
+              focusTime: weekStats.focusTime + customTimerLength
+            }
+          };
+
+          // 更新Pomodoros数组，保持兼容性
           const today = StringRef.today();
           const todayPomodoros = prev.Pomodoros;
-          console.log(todayPomodoros.length);
-          const nowPomodoro = ()=>{
-            if(todayPomodoros.length == 0){
-              return [...todayPomodoros,today];
-            }else{
-              if (todayPomodoros[todayPomodoros.length - 1]._value == today.value()) {
-                return todayPomodoros; 
-              }else{
+          const nowPomodoro = () => {
+            if (todayPomodoros.length === 0) {
+              return [...todayPomodoros, today];
+            } else {
+              if (todayPomodoros[todayPomodoros.length - 1]._value === today.value()) {
+                return todayPomodoros;
+              } else {
                 return [...todayPomodoros, today];
               }
             }
-          }
-          
-          const newstaus = {
-            totalPomodoros: prev.totalPomodoros + 1,
-            todayPomodoros: prev.todayPomodoros + 1,
-            totalFocusTime: prev.totalFocusTime + customTimerLength,
-            Pomodoros: nowPomodoro()
           };
-          
-          setPomodoroStats(newstaus);
-        }
-        fdf(dataStorage.load("pomodoro_stats") || pomodoroStats);
+
+          const newStats = {
+            totalPomodoros: prev.totalPomodoros + 1,
+            todayPomodoros: newDailyStats[currentDate].count,
+            totalFocusTime: prev.totalFocusTime + customTimerLength,
+            Pomodoros: nowPomodoro(),
+            dailyStats: newDailyStats,
+            weeklyStats: newWeeklyStats
+          };
+
+          return newStats;
+        });
       }
     },
     onTimerReset: () => {
@@ -170,24 +234,33 @@ function App() {
 
   // 添加调试信息
   console.log('当前登录状态:', isLogin);
-  
-  // 在组件加载完成后从数据存储加载任务
+    // 在组件加载完成后从数据存储加载任务
   useEffect(() => {
-    const storedTasks = dataStorage.load("tasks") ;
+    const storedTasks = dataStorage.load("tasks");
     if (storedTasks) {
       setTasks(storedTasks);
     }
     
     // 加载番茄钟统计数据
-    const storedStats = dataStorage.load("pomodoro_stats") || pomodoroStats;
+    const storedStats = dataStorage.load("pomodoro_stats");
     if (storedStats) {
-      // 如果存储的数据中有 Pomodoros 数组，需要将字符串转换为 StringAlias 对象
+      // 确保新的数据结构存在
       const processedStats = {
-        ...storedStats,
+        totalPomodoros: storedStats.totalPomodoros || 0,
+        todayPomodoros: storedStats.todayPomodoros || 0,
+        totalFocusTime: storedStats.totalFocusTime || 0,
+        Pomodoros: storedStats.Pomodoros || [],
+        dailyStats: storedStats.dailyStats || {},
+        weeklyStats: storedStats.weeklyStats || {}
       };
+      
+      // 重新计算今日番茄钟数量
+      const todayCount = getTodayPomodoroCount(processedStats);
+      processedStats.todayPomodoros = todayCount;
+      
       setPomodoroStats(processedStats);
     }
-  }, [dataStorage]); // 现在 dataStorage 是稳定的，所以这个依赖是安全的
+  }, [dataStorage]);
 
   function updateTasks(newTasks){
     try{
@@ -469,7 +542,6 @@ function App() {
       usernameInputRef.current?.focus();
     }, 100);
   };
-
   // Prepare props for AppRouter
   const appProps = {
     // Data
@@ -504,7 +576,10 @@ function App() {
     handleSaveSignature,
     handleCancelEdit,
     count_pomodoros,
-    hasSevenConsecutivePomodoros
+    hasSevenConsecutivePomodoros,
+    getTodayPomodoroCount,
+    getThisWeekPomodoroCount,
+    hasWeekly30Pomodoros
   };
 
   // 主渲染函数

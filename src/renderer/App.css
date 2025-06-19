@@ -735,6 +735,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 25px;
   align-items: end;
+  text-align: center;
 }
 
 .login-form-desktop.register-form {
@@ -749,6 +750,20 @@ body {
 .login-form-desktop.register-form .login-btn-primary .register-btn-primary {
   grid-column: span 1;
   margin-top: 10px;
+}
+
+/* 注册表单按钮居中 */
+.login-form-desktop.register-form .register-btn-secondary {
+  grid-column: span 1;
+  justify-self: center;
+  align-self: center;
+  margin: 15px auto;
+}
+
+.login-form-desktop .register-btn-secondary {
+  grid-column: span 2;
+  justify-self: center;
+  max-width: 200px;
 }
 
 .login-form-desktop .input-group:nth-child(1),
@@ -915,8 +930,10 @@ body {
 
 .register-btn-secondary {
   width: 100%;
-  padding: 0px 0px;
-  height: 30px;
+  max-width: 200px;
+  padding: 10px 20px;
+  height: auto;
+  min-height: 40px;
   background: transparent;
   color: #7f8c8d;
   border: none;
@@ -925,10 +942,12 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 0px;
+  margin: 10px auto;
   position: relative;
   overflow: hidden;
-  
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .register-btn-secondary:hover {

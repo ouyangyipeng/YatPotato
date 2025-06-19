@@ -59,7 +59,7 @@ const LoginPage = ({
             
             <form className="login-form-desktop" onSubmit={(e) => {e.preventDefault(); handleRegister();}}>
               <button type="submit" className="register-btn-secondary">
-                没有账号？注册一个新的吧！
+                没有账号？注册一个！
               </button>
             </form>
           </div>
