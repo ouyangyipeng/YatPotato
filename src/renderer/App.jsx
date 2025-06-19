@@ -215,7 +215,7 @@ function App() {
   // 切换任务完成状态
   const toggleTaskCompletion = (id) => {
     const updatedTasks = tasks.map(task => 
-      task.id === id ? { ...task, completed: !task.completed } : {...task}
+      task.id === id ? { ...task, completed: !task.completed } : task
     );
     updateTasks(updatedTasks);
   };
@@ -223,7 +223,7 @@ function App() {
   // 编辑任务
   const editTitleOfTask = (id, newTitle) => {
     const updatedTasks = tasks.map(task =>
-      task.id === id ? { ...task, title: newTitle } : {...task}
+      task.id === id ? { ...task, title: newTitle } : task
     );
     dataStorage.save("tasks", updateTasks);
   }
