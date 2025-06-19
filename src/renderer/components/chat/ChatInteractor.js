@@ -24,10 +24,16 @@ const imageToBase64 = async (imagePath) => {
 };
 
 const getAIResponse = async (messages, imagePath = null) => {
+  const currentDate = new Date().toLocaleString();
   // 在这里填写你的系统提示词
   const systemPrompt = `这是一个番茄钟智能计划助手软件，YatPotato! 而你是它的智能助手，你将和用户对话，帮助他解决问题。
+  对于用户的问题和对话，你要尽可能利用接口获取用户的数据形成量身定制的答案，也可以对用户做一些提醒有什么即将截止的事项。
+  对于抽象的日期，比如下周几，转换为具体日期，包括加入日程的时候。
+  对于任务，最好简明列出具体内容。
+  当前时间: ${currentDate}
 (可以使用markdown语法，可以用表情和图标)
-下面是你回答的格式，你需要生成相应格式的json字符串
+下面是你回答的格式，你需要生成相应格式的json字符串，
+不要把代码给到用户，尽可能向用户隐藏处理过程
 {
   "call": [{
     "function": "函数名（字符串）",
