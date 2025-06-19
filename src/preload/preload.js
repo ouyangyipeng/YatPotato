@@ -1079,3 +1079,8 @@ const { contextBridge } = require('electron')
 contextBridge.exposeInMainWorld('DataStorage', {
     loadDataStorage: (componentId) => loadDataStorage(componentId),
 })
+
+contextBridge.exposeInMainWorld('electron', {
+    openImageDialog: () => ipcRenderer.invoke('dialog:openImage'),
+    readImageFile: (imagePath) => ipcRenderer.invoke('file:readImage', imagePath)
+})

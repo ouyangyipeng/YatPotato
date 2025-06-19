@@ -1,5 +1,5 @@
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, dialog } = require('electron');
 const path = require('path');
 const { ipcMain, net, session } = require('electron');
 const WebSocket = require('ws');
@@ -88,6 +88,50 @@ const wsConnections = new Map();
 
 // 防止重复注册的标志
 let ipcHandlersRegistered = false;
+
+// 新增：处理图片选择对话框
+ipcMain.handle('dialog:openImage', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'] }
+    ]
+  });
+  if (!canceled) {
+    return filePaths[0];
+  }
+  return null;
+});
+
+// 新增：处理图片文件读取
+ipcMain.handle('file:readImage', async (event, imagePath) => {
+  try {
+    const fs = require('fs');
+    const imageBuffer = fs.readFileSync(imagePath);
+    const base64String = imageBuffer.toString('base64');
+    
+    // 获取文件扩展名来确定 MIME 类型
+    const ext = path.extname(imagePath).toLowerCase();
+    const mimeTypes = {
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.gif': 'image/gif',
+      '.bmp': 'image/bmp',
+      '.webp': 'image/webp'
+    };
+    
+    const mimeType = mimeTypes[ext] || 'image/jpeg';
+    
+    return {
+      base64: base64String,
+      mimeType: mimeType
+    };
+  } catch (error) {
+    console.error('Error reading image file:', error);
+    throw error;
+  }
+});
 
 // IPC 处理器设置
 function setupRemoteClientIPC() {

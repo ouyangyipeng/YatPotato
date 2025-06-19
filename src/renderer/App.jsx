@@ -5,6 +5,7 @@ import PomodoroTimer from './components/PomodoroTimer';
 import StringRef from './utils/stringRef';
 import AppRouter from './components/common/AppRouter';
 import PomodoroModal from './components/common/PomodoroModal';
+import { data } from 'react-router-dom';
 
 function App() {
   // 添加ref来管理输入框焦点
@@ -266,7 +267,7 @@ function App() {
     }
     
     // 加载番茄钟统计数据
-    const storedStats = dataStorage.load("pomodoro_stats");
+    const storedStats = dataStorage.load("pomodoro_stats") || pomodoroStats;
     if (storedStats) {
       // 确保新的数据结构存在
       const processedStats = {
@@ -283,6 +284,7 @@ function App() {
       processedStats.todayPomodoros = todayCount;
       
       setPomodoroStats(processedStats);
+      dataStorage.save("pomodoro_stats", processedStats); // 确保保存到数据存储
     }
   }, [dataStorage]);
 
@@ -301,10 +303,10 @@ function App() {
     setTasks(storedTasks || []);
   })
 
-  dataStorage.registerUpdateEventWithKey("tasks", ()=>{
-    const data = dataStorage.load("pomodoro_stats");
-    setPomodoroStats(data || []);
-  })
+  // dataStorage.registerUpdateEventWithKey("pomodoro_stats", ()=>{
+  //   // const data = dataStorage.load("pomodoro_stats") || pomodoroStats;
+  //   // setPomodoroStats(data);
+  // })
 
   // 添加新任务
   const addTask = () => {

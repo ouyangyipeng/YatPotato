@@ -25,12 +25,16 @@ const AchievementsGrid = ({
   // 计算今日完成的番茄钟数量
   const getTodayPomodoroCount = () => {
     const today = getCurrentDateString();
+    if(!pomodoroStats) return 0;
+    if(!pomodoroStats.dailyStats) return 0;
     return pomodoroStats.dailyStats[today]?.count || 0;
   };
 
   // 计算本周完成的番茄钟数量
   const getThisWeekPomodoroCount = () => {
     const thisWeek = getCurrentWeekString();
+    if(!pomodoroStats) return 0;
+    if(!pomodoroStats.weeklyStats) return 0;
     return pomodoroStats.weeklyStats[thisWeek]?.count || 0;
   };
 
