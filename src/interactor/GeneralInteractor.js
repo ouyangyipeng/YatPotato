@@ -4,6 +4,7 @@
 import { getInteractor as getTasksInteractor, getInteractorDescription as getTasksInteractorDescription } from '../renderer/components/tasks/TasksListInteractor.js';
 
 const interactors = new Map();
+const interactorDescriptions = [];
 
 /**
  * Initializes all interactors and stores their functions in a map.
@@ -19,6 +20,7 @@ const initializeInteractors = () => {
       interactors.set(key, tasksInteractor[key]);
     }
   }
+  interactorDescriptions.push(getTasksInteractorDescription);
 
   // --- Add other interactors here in the future ---
 };
@@ -54,7 +56,7 @@ export const invoke = async (functionName, ...args) => {
 export const getAllInteractorDescriptions = () => {
   // This can be expanded to combine descriptions from all interactors.
   // For now, it returns the description for the Tasks interactor.
-  return getTasksInteractorDescription();
+  return interactorDescriptions.map(getDescription => getDescription()).join('\n');
 };
 
 /**

@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { getAllInteractorDescriptions } from '../../../interactor/GeneralInteractor.js';
 
 // 在实际应用中，请确保您的API密钥是安全存储的，例如通过环境变量。
 
@@ -25,7 +26,21 @@ const imageToBase64 = async (imagePath) => {
 const getAIResponse = async (messages, imagePath = null) => {
   // 在这里填写你的系统提示词
   const systemPrompt = `这是一个番茄钟智能计划助手软件，YatPotato! 而你是它的智能助手，你将和用户对话，帮助他解决问题。
-(可以使用markdown语法，可以用表情和图标)`; // <-- 在这里填写你的系统提示词
+(可以使用markdown语法，可以用表情和图标)
+下面是你回答的格式，你需要生成相应格式的json字符串
+{
+  "call": [{
+    "function": "函数名（字符串）",
+    "args": ["参数1", "参数2", ...],
+    } 
+    ...
+  ]
+  
+  "returnValueRequired": true 或 false 是否需要接收返回值, 
+  "message": "需要发送给用户的文本"
+  "messageRequired" : true 或 false 是否需要给用户发送信息。
+}
+以下是你可以调用的函数列表:\n${getAllInteractorDescriptions()}`; // <-- 在这里填写你的系统提示词
 
   try {
     // 处理消息，支持异步图片转换

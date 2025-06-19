@@ -5,6 +5,7 @@ import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css'; // 导入代码高亮样式
 import './Chat.css';
 import { getInteractor } from './ChatInteractor';
+import * as GeneralInteractor from '../../../interactor/GeneralInteractor.js';
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
@@ -28,23 +29,75 @@ const ChatPage = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Function to process AI responses, including function calls
+  const processAIResponse = async (aiResponseText, messageHistory) => {
+    try {
+      const responseJson = JSON.parse(aiResponseText);
+      const { call, returnValueRequired, message, messageRequired } = responseJson;
+
+      let functionCallResults = [];
+      let hasFunctionCalls = call && call.length > 0;
+
+      if (hasFunctionCalls) {
+        for (const func of call) {
+          try {
+            const result = await GeneralInteractor.invoke(func.function, ...(func.args || []));
+            functionCallResults.push({ function: func.function, status: 'success', result });
+          } catch (error) {
+            console.error(`Error invoking function ${func.function}:`, error);
+            functionCallResults.push({ function: func.function, status: 'error', error: error.message });
+          }
+        }
+      }
+
+      if (returnValueRequired && hasFunctionCalls) {
+        // If the AI needs the function results back, send them
+        const resultMessage = {
+          sender: 'user', // Sent as 'user' for context
+          text: `Function call results:\n${JSON.stringify(functionCallResults, null, 2)}`,
+          isSystem: true // This message is for AI context, not for display
+        };
+
+        // The original AI message and the results are added to history for the next turn
+        const historyForNextTurn = [
+          ...messageHistory,
+          { sender: 'ai', text: aiResponseText, isSystem: true },
+          resultMessage
+        ];
+
+        const nextAiResponse = await chatInteractor.getAIResponse(historyForNextTurn);
+        await processAIResponse(nextAiResponse, historyForNextTurn); // Recursively process the next response
+      } else if (messageRequired && message) {
+        // If no return value is needed, but a message should be shown
+        setMessages(prevMessages => [...prevMessages, { sender: 'ai', text: message }]);
+      }
+
+    } catch (error) {
+      // If the response is not a valid JSON or another error occurs, display the raw text
+      console.error("Error parsing or processing AI response:", error);
+      setMessages(prevMessages => [...prevMessages, { sender: 'ai', text: aiResponseText }]);
+    }
+  };
+
   const handleSend = async () => {
     if ((input.trim() === '' && !selectedImage) || isLoading) return;
 
-    const newMessage = { 
-      sender: 'user', 
+    const userMessage = {
+      sender: 'user',
       text: input,
-      image: selectedImage 
+      image: selectedImage
     };
-    const newMessages = [...messages, newMessage];
-    setMessages(newMessages);
+
+    const currentMessageHistory = [...messages, userMessage];
+    setMessages(currentMessageHistory);
     setInput('');
     setSelectedImage(null);
     setIsLoading(true);
 
     try {
-      const aiResponse = await chatInteractor.getAIResponse(newMessages, selectedImage);
-      setMessages(prevMessages => [...prevMessages, { sender: 'ai', text: aiResponse }]);
+      const aiResponse = await chatInteractor.getAIResponse(currentMessageHistory, selectedImage);
+      await processAIResponse(aiResponse, currentMessageHistory);
     } catch (error) {
       console.error('Error getting AI response:', error);
       setMessages(prevMessages => [...prevMessages, { sender: 'ai', text: '抱歉，我遇到了一些麻烦，请稍后再试。' }]);
@@ -79,34 +132,21 @@ const ChatPage = () => {
       <div className="chat-header">
         <h2>AI 小助手</h2>
         <p>Yat-Potato</p>
-      </div>      <div className="chat-messages">
-        {messages.map((msg, index) => (
+      </div>
+      <div className="chat-messages">
+        {messages.filter(msg => !msg.isSystem).map((msg, index) => (
           <div key={index} className={`message-bubble ${msg.sender}`}>
             <div className="message-content">
               {msg.image && msg.sender === 'user' && (
                 <div className="message-image">
                   <img src={`file://${msg.image}`} alt="用户发送的图片" />
                 </div>
-              )}              {msg.sender === 'ai' ? (
+              )}
+              {msg.sender === 'ai' ? (
                 <div className="markdown-content">
-                  <ReactMarkdown 
+                  <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeHighlight]}
-                    components={{
-                      // 自定义组件渲染
-                      code: ({node, inline, className, children, ...props}) => {
-                        const match = /language-(\w+)/.exec(className || '');
-                        return !inline && match ? (
-                          <pre className={className} {...props}>
-                            <code>{children}</code>
-                          </pre>
-                        ) : (
-                          <code className={className} {...props}>
-                            {children}
-                          </code>
-                        );
-                      }
-                    }}
                   >
                     {msg.text}
                   </ReactMarkdown>
@@ -128,7 +168,7 @@ const ChatPage = () => {
         )}
         <div ref={messagesEndRef} />
       </div>
-      
+
       {selectedImage && (
         <div className="image-preview-container">
           <div className="image-preview">
@@ -137,7 +177,7 @@ const ChatPage = () => {
           </div>
         </div>
       )}
-      
+
       <div className="chat-input-area">
         <button className="attach-btn" onClick={handleImageSelect} disabled={isLoading}>
           📎

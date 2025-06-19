@@ -7,7 +7,7 @@ const DATA_STORAGE_KEY = "ds-test";
 const loadTasks = async () => {
   const dataStorage = await window.DataStorage.loadDataStorage(DATA_STORAGE_KEY);
   const tasks = await dataStorage.load('tasks');
-  return tasks ? JSON.parse(tasks) : [];
+  return tasks ? tasks : [];
 };
 
 // Helper function to save tasks to data storage
