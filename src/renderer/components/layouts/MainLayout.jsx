@@ -11,6 +11,7 @@ const MainLayout = ({ children, toggleScreenLock }) => {
     { path: '/tasks', icon: '📋', label: '任务' },
     { path: '/reports', icon: '📊', label: '报告' },
     { path: '/profile', icon: '👤', label: '个人主页' },
+    { path: '/chat', icon: '💬', label: 'AI助手' }, // 添加的代码行
   ];
 
   const isActive = (path) => location.pathname === path;

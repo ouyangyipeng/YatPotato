@@ -277,6 +277,11 @@ function App() {
     setTasks(storedTasks || []);
   })
 
+  dataStorage.registerUpdateEventWithKey("tasks", ()=>{
+    const data = dataStorage.load("pomodoro_stats");
+    setPomodoroStats(data || []);
+  })
+
   // 添加新任务
   const addTask = () => {
     if (newTaskText.trim() !== '') {

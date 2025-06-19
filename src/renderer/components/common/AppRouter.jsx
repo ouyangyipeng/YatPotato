@@ -9,6 +9,7 @@ import ProfilePage from '../pages/ProfilePage';
 import LockScreen from '../pages/LockScreen';
 import LoginPage from '../auth/LoginPage';
 import RegisterPage from '../auth/RegisterPage';
+import ChatPage from '../chat/ChatPage'; // <--- 导入ChatPage
 
 const AppRouter = ({ 
   isLogin, 
@@ -107,6 +108,7 @@ const AppRouter = ({
           <Route path="/tasks" element={<TasksPage {...appProps} />} />
           <Route path="/reports" element={<ReportsPage {...appProps} />} />
           <Route path="/profile" element={<ProfilePage {...appProps} />} />
+          <Route path="/chat" element={<ChatPage {...appProps} />} /> 
           <Route path="*" element={<Navigate to="/timer" replace />} />
         </Routes>
       </MainLayout>

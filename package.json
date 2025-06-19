@@ -20,6 +20,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
+    "openai": "^5.5.1",
     "react-router-dom": "^7.6.2",
     "ws": "^8.18.2"
   },
